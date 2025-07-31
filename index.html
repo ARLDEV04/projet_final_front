@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Météolia6</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body class="bg-gray-800 text-white font-sans transition-colors duration-300">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="md:flex flex-col relative transition-all duration-300 ease-in-out w-60 bg-gray-700 p-5 shadow-xl flex flex-col justify-between">
+            <div>
+                <!-- Sidebar Header -->
+                <div class="flex items-center justify-between mb-10">
+                    <h1 id="sidebar-title" class="text-2xl font-bold text-white">Météolia</h1>
+                    <button id="toggle-sidebar" class="text-gray-300 hover:text-blue-400 focus:outline-none text-xl">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="space-y-4">
+                    <a href="#" data-page="dashboard" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                        <i class="fas fa-gauge mr-3"></i>
+                        <span class="nav-text">Tableau de bord</span>
+                    </a>
+                    <a href="#" data-page="historique" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                        <i class="fas fa-cloud-sun-rain mr-3"></i>
+                        <span class="nav-text">Historique</span>
+                    </a>
+                    <a href="#" data-page="perso" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                        <i class="fas fa-user mr-3"></i>        
+                        <span class="nav-text">Espace personnel</span>
+                    </a>
+                    <a href="#" data-page="gestUtilisateurs" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                        <i class="fas fa-users-gear mr-3"></i>        
+                        <span class="nav-text">Gestion des utilisateurs</span>
+                    </a>
+                    <a href="#" data-page="gestCapteurs" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                        <i class="fas fa-microchip mr-3"></i>        
+                        <span class="nav-text">Gestion des capteurs</span>
+                    </a>                    
+                    <a id="theme-toggle" class="flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                        <i id="theme-icon" class="fas fa-sun mr-3"></i>
+                        <span class="nav-text" id="theme-txt">Mode clair</span>
+                    </a>
+                    <a href="#" class="flex items-center p-3 rounded-lg bg-gray-700 hover:bg-red-400 hover:text-white transition-colors">
+                        <i class="fas fa-power-off mr-3"></i>                        
+                        <span class="nav-text">Déconnexion</span>
+                    </a>          
+                </nav>
+            </div>
+
+            <!-- Sidebar Footer -->
+            <footer id="sidebar-footer" class="text-center text-gray-300">
+                © 2024 Météolia
+            </footer>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-y-auto p-8">
+            <!-- Page Header -->
+            <header class="flex justify-between items-center mb-8 border-b pb-4 border-gray-700">
+                <h1 id="page-title" class="text-xl md:text-2xl lg:text-4xl font-bold text-white">Tableau de bord</h1>
+                <div class="flex items-center space-x-4">
+                    <button id="mbtn" class="text-gray-300 text-xl md:text-2xl focus:outline-none">
+                        <i class="fas fa-user w-6 h-6"></i>
+                        <span>Ariel Gnapie</span>
+                    </button>
+
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-blue-400 text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>                
+            </header>
+
+            <!-- Menu pour mobile -->
+            <div id="mobile-sidebar" class="fixed top-0 right-0 w-2/3 sm:w-1/2 h-full bg-gray-700 z-50 transform translate-x-full transition-transform duration-300 md:hidden shadow-lg">
+                <div class="flex justify-between items-center p-4 border-b border-gray-600">
+                    <h2 id="msidebar-title" class="text-lg text-white font-semibold">Météolia</h2>
+                    <button id="close-mobile-menu" class="text-gray-300 text-2xl"><i class="fas fa-times"></i></button>
+                </div>
+                <nav class="flex flex-col space-y-4 p-1">
+                    <a href="#" data-page="dashboard" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="#" data-page="historique" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                        <i class="fas fa-history"></i>
+                        <span>Historique</span>
+                    </a>
+                    <a href="#" data-page="perso" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Espace personnel</span>
+                    </a>
+                    <a href="#" data-page="gestUtilisateurs" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                        <i class="fas fa-users-cog"></i>
+                        <span>Gestion utilisateurs</span>
+                    </a>
+                    <a href="#" data-page="gestCapteurs" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                        <i class="fas fa-microchip"></i>
+                        <span>Gestion capteurs</span>
+                    </a>
+                    <a id="theme-toggle2" class="rounded-lg bg-gray-700 hover:bg-blue-400 p-2 transition-colors">
+                        <i id="theme-icon2" class="fas fa-sun"></i>
+                        <span id="theme-txt2">Mode clair</span>
+                    </a>
+                    <a href="#" class="bg-gray-700 hover:bg-red-500 p-2 rounded transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Tableau de bord -->
+            <div id="dashboard-page" class="page active">
+                <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Carte meteo actuelle -->
+                    <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold">Météo actuelle</h2>
+                            <i class="fas fa-thermometer-half text-blue-400 text-3xl"></i>
+                        </div>
+                        <div class="font-semibold text-2xl sm:text-5xl md:text-8xl my-4">
+                            <span id="current-temp">15</span>°C
+                        </div>
+                        <p class="text-lg">Humidité relative: <span id="current-humidity">65</span>%</p>
+                        <p class="text-base mt-2">
+                            <i class="fas fa-droplet mr-2 text-blue-400"></i>
+                            <span id="rain-status">Pas de pluie actuellement</span>
+                        </p>
+                    </section>
+
+                    <!-- Section temps actuel -->
+                    <section class="col-span-1 md:col-span-2 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                        <h2 class="text-xl font-semibold mb-6">Temps actuel</h2>
+                        <div id="weather-animation" class="relative w-32 h-32 flex items-center justify-center">
+                            <!-- Icone de soleil -->
+                            <div id="sun-icon" class="absolute w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center shadow-xl weather-icon-bg">
+                                <i class="fas fa-sun text-yellow-400 text-6xl"></i>
+                            </div>
+
+                            <!-- Icone de nuage avec pluie -->
+                            <div id="cloud-icon" class="absolute w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center shadow-xl weather-icon-bg hidden">
+                                <i class="fas fa-cloud-rain text-blue-300 text-6xl"></i>
+                            </div>
+
+                            <!-- Gouttes de pluie -->
+                            <div id="rain-drops" class="hidden">
+                                <!-- Groupe de gouttes 1 -->
+                                <div class="absolute top-20 left-1/2 transform -translate-x-1/2">
+                                    <div class="relative w-6 h-10">
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-1" style="left: 25%;"></div>
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-2" style="left: 50%;"></div>
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-3" style="left: 75%;"></div>
+                                    </div>
+                                </div>
+                                <!-- Groupe de gouttes 2 -->
+                                <div class="absolute top-24 left-1/2 transform -translate-x-1/2 translate-x-4">
+                                    <div class="relative w-5 h-10">
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-4" style="left: 33%;"></div>
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-5" style="left: 66%;"></div>
+                                    </div>
+                                </div>
+                                <!-- Groupe de gouttes 3 -->
+                                <div class="absolute top-24 left-1/2 transform -translate-x-1/2 -translate-x-4">
+                                    <div class="relative w-5 h-10">
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-6" style="left: 33%;"></div>
+                                        <div class="absolute w-1 h-3 rounded-b-full opacity-70 text-blue-300 bg-blue-300 rain-drop rain-drop-7" style="left: 66%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="weather-status" class="text-base sm:text-lg md:text-xl mt-4">Ensoleillé</p>
+                    </section>
+
+                    <!-- Charts Section -->
+                    <section class="col-span-1 md:col-span-3 p-6 rounded-xl shadow-xl bg-gray-700">
+                        <h2 class="text-xl font-semibold mb-4">Historical Data</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="h-72">
+                                <canvas id="temperatureChart"></canvas>
+                            </div>
+                            <div class="h-72">
+                                <canvas id="humidityChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+
+            <!-- Historique meteo -->
+            <div id="historique-page" class="page">
+                <main class="space-y-8">
+                    <!-- Filtres -->
+                    <section class="p-6 rounded-xl shadow-xl bg-gray-700">
+                        <h2 class="text-md md:text-xl font-semibold mb-4">Filtres</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Date de début</label>
+                                <input type="date" class="w-full p-2 rounded-lg border border-gray-500 text-black">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Date de fin</label>
+                                <input type="date" class="w-full p-2 rounded-lg border border-gray-500 text-black">
+                            </div>
+                            <div class="flex items-end">
+                                <button class="w-full p-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition">
+                                    Filtrer
+                                </button>
+                            </div>
+                        </div>
+                    </section>   
+                    
+                    <!-- Tableau historique -->
+                    <section class="p-6 rounded-xl shadow-xl bg-gray-700">    
+                        <div class="flex justify-between items-center divhist">
+                            <h2 class="text-md md:text-xl font-semibold mb-4">Données historiques</h2>
+                            <div class="mb-4 flex justify-evenly items-center">
+                                <button class="flex items-center rounded-lg bg-blue-400 hover:bg-blue-700 text-sm hover:text-white p-1 mr-2 transition-colors">
+                                    <span class="p-1">exporter</span>
+                                    <i class="fas fa-file-excel"></i> 
+                                </button>
+                                <button class="flex items-center rounded-lg bg-blue-400 hover:bg-blue-700 text-sm hover:text-white p-1 mr-2 transition-colors">
+                                    <span class="p-1">exporter</span>
+                                    <i class="fas fa-file-pdf"></i> 
+                                </button>
+                                <button class="flex items-center rounded-lg bg-blue-400 hover:bg-blue-700 text-sm hover:text-white p-1 mr-2 transition-colors">
+                                    <span class="p-1">exporter</span>
+                                    <i class="fas fa-file-csv"></i> 
+                                </button>
+                            </div>                 
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-600">
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Date/Heure</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Température (°C)</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Humidité (%)</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Météo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- Les données seront ajoutées dynamiquement -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>                    
+                </main>
+            </div>
+
+            <!-- Espace personnel -->
+            <div id="perso-page" class="page mt-3">                
+                <main class="space-y-8 flex justify-center items-center">
+                    <!-- Profil utilisateur -->
+                    <section class="p-6 rounded-xl shadow-xl bg-gray-700" style="width: 600px;">
+                        <h2 class="text-xl font-semibold mb-4 text-center">
+                            <i class="fas fa-user"></i>        
+                            <p>Profil</p>
+                        </h2>
+                        <div>
+                            <div class="text-center font-bold">
+                                <h1>Ariel Gnapie</h1>
+                                <h2>ariel.gnapie@meteolia.com</h2>
+                            </div>
+                            <div class="flex justify-center item-center mt-2 divperso">
+                                <button class="flex items-center round ed-lg bg-blue-400 hover:bg-blue-500 text-sm text-white p-1 mr-2 transition-colors">
+                                    <i class="fas fa-edit mr-2"></i>                                    
+                                    <span class="p-1">Modifier</span>
+                                </button>      
+                                <button class="flex items-center rounded-lg bg-red-700 hover:bg-red-800 text-sm text-white p-1 mr-2 transition-colors">
+                                    <i class="fas fa-trash mr-2"></i>                                    
+                                    <span class="p-1">Supprimer mon compte</span>
+                                </button>                                                                                               
+                            </div>
+                        </div>
+                    </section>                  
+                </main>
+            </div>
+
+            <!-- Gestion utilisateurs -->
+            <div id="gestUtilisateurs-page" class="page mt-3">
+                <main class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Carte meteo actuelle -->
+                        <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-semibold">Administrateurs</h2>
+                            </div>
+                            <div class="text-5xl font-bold my-4">
+                                3
+                            </div>
+
+                        </section>
+
+                        <!-- Section temps actuel -->
+                        <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                            <h2 class="text-xl font-semibold mb-6">Utilisateurs</h2>
+                            <div class="text-5xl font-bold my-4">
+                                50
+                            </div>
+                        </section>
+                        <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-semibold">Actifs actuellement</h2>
+                            </div>
+                            <div class="text-5xl font-bold my-4">
+                                11
+                            </div>
+                        </section>                    
+                    </div>
+                    <!-- Tableau global -->
+                    <section class="p-6 rounded-xl shadow-xl bg-gray-700">    
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold mb-4"></h2>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-600">
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Nom complet</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Email</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Mot de passe</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Rôle</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Statut</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- Les données seront ajoutées dynamiquement -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>                                        
+                </main>
+            </div>
+
+            <!-- Gestion capteurs -->
+            <div id="gestCapteurs-page" class="page mt-3">
+                <main class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Carte meteo actuelle -->
+                        <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-semibold">Capteurs</h2>
+                            </div>
+                            <div class="text-5xl font-bold my-4">
+                                2
+                            </div>
+
+                        </section>
+
+                        <!-- Section temps actuel -->
+                        <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                            <h2 class="text-xl font-semibold mb-6">Actifs</h2>
+                            <div class="text-5xl font-bold my-4">
+                                2
+                            </div>
+                        </section>
+                        <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-semibold">Non actifs</h2>
+                            </div>
+                            <div class="text-5xl font-bold my-4">
+                                0
+                            </div>
+                        </section>                    
+                    </div>
+                    <!-- Tableau global -->
+                    <section class="p-6 rounded-xl shadow-xl bg-gray-700">    
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold mb-4"></h2>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-600">
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Type</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Mesures</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Statut</th>
+                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- Les données seront ajoutées dynamiquement -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>                                        
+                </main>
+            </div>            
+        </div>
+    </div>
+    <script src="scrpit.js"></script>
+</body>
+</html>

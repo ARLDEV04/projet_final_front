@@ -1,0 +1,47 @@
+
+@keyframes drop {
+    0% { transform: translateY(-10px); opacity: 0.8; }
+    100% { transform: translateY(40px); opacity: 0; }
+}
+
+.rain-drop {
+    animation: drop 1.5s infinite linear;
+}
+.rain-drop-1 { animation-delay: 0s; }
+.rain-drop-2 { animation-delay: 0.1s; }
+.rain-drop-3 { animation-delay: 0.2s; }
+.rain-drop-4 { animation-delay: -0.5s; }
+.rain-drop-5 { animation-delay: -0.4s; }
+.rain-drop-6 { animation-delay: -0.8s; }
+.rain-drop-7 { animation-delay: -0.7s; }
+.sun-rays {
+    animation: sunRays 8s infinite linear;
+}
+/* Responsive text adjustments */
+@media (max-width: 767px) {
+    #sidebar{
+        display: none;
+    }
+}
+
+@media (max-width: 494px) {
+    .divhist{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #mbtn{
+        display: none;
+    }
+}
+
+@media (max-width: 402px) {
+    .divperso{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .divperso button{
+        margin-top: 5px;
+    }
+}
