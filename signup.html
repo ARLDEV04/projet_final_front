@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="authStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Inscription</title>
+</head>
+<body>
+    <div class="container">
+        <div class="inscription">
+            <div class="formulaire">
+                <div class="pub">
+                    <div class="pub-container">
+                        <div class="pub-elements">
+                            <h1 style="font-weight: bold;">Météolia</h1>
+                            <h3>Formulaire d'inscription</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <form action="" id="form1"> 
+                        <div class="form-input">
+                            <label for="user-name">Nom</label>
+                            <br>
+                            <input type="text" id="user-name">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-exclamation"></i>
+                            <small>massage d'erreur</small>
+                        </div>
+                        <div class="form-input">
+                            <label for="user-firstName">Prenom(s)</label>
+                            <br>
+                            <input type="text" id="user-firstName">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-exclamation"></i>
+                            <small>massage d'erreur</small>
+                        </div>
+                        <div class="form-input">
+                            <label for="user-email">Email</label>
+                            <br>
+                            <input type="email" id="user-email">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-exclamation"></i>
+                            <small>massage d'erreur</small>
+                        </div>
+                        <div class="form-input">
+                            <label for="user-password">Mot de passe</label>
+                            <br>
+                            <input type="password" id="user-password">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-exclamation"></i>
+                            <small>massage d'erreur</small>
+                        </div>
+                        <div class="form-input">
+                            <label for="user-password2">Confirmer de mot de passe</label>
+                            <br>
+                            <input type="password" id="user-password2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-exclamation"></i>
+                            <small>massage d'erreur</small>
+                        </div>
+                        <button type="submit" class="validation-button">S'incrire</button>
+                        <p style="font-size: 18px; margin-top: 5px;">Vous avez déjà un compte? Connectez-vous <a href="index.html">ici!</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="authScript.js"></script>
+</body>
+</html>

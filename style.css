@@ -45,3 +45,20 @@
         margin-top: 5px;
     }
 }
+
+.showw{
+    display: block;
+}
+
+.hidee{
+    display: none;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+.bg-green { background-color: #22c55e; } /* Vert */
+.bg-red { background-color: #ef4444; }   /* Rouge */
