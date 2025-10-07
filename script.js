@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    fetch('http://localhost:3000/api/auth/verify', {
+    fetch('https://meteolia-backend.onrender.com/api/auth/verify', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -33,7 +33,7 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-const socket = io('http://localhost:3000', {
+const socket = io('https://meteolia-backend.onrender.com', {
   transports: ['websocket', 'polling'],
   secure: true,
   reconnection: true
@@ -349,7 +349,7 @@ function updateChartsTheme() {
 //////////////////////// FONCTIONS SYSTEMES ////////////////////////////////////////////
 async function fetchData(){
     try{
-        const res = await fetch('http://localhost:3000/api/data');
+        const res = await fetch('https://meteolia-backend.onrender.com/api/data');
         const data = await res.json();
         if (!Array.isArray(data) || data.length === 0) return;
         const data2 = [...data].slice(0, 50);
@@ -671,7 +671,7 @@ function exportToPDF() {
 
 //Gestion capteurs
 async function fetchCapteursStatus() {
-    const res = await fetch('http://localhost:3000/api/capteurs/statut');
+    const res = await fetch('https://meteolia-backend.onrender.com/api/capteurs/statut');
     const capteurs = await res.json();
 
     const capteursNbr = capteurs.length;
