@@ -28,34 +28,36 @@
 
                 <!-- Navigation Links -->
                 <nav class="space-y-4">
-                    <a href="#" data-page="dashboard" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                    <a data-page="dashboard" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
                         <i class="fas fa-gauge mr-3"></i>
                         <span class="nav-text">Tableau de bord</span>
                     </a>
-                    <a href="#" data-page="historique" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                    <a data-page="historique" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
                         <i class="fas fa-cloud-sun-rain mr-3"></i>
                         <span class="nav-text">Historique</span>
                     </a>
-                    <a href="#" data-page="perso" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                    <a data-page="perso" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
                         <i class="fas fa-user mr-3"></i>        
                         <span class="nav-text">Espace personnel</span>
                     </a>
-                    <a href="#" data-page="gestUtilisateurs" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                    <a id="gestUsers" data-page="gestUtilisateurs" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
                         <i class="fas fa-users-gear mr-3"></i>        
                         <span class="nav-text">Gestion des utilisateurs</span>
                     </a>
-                    <a href="#" data-page="gestCapteurs" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
+                    <a id="gestCapteurs" data-page="gestCapteurs" class="nav-link flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
                         <i class="fas fa-microchip mr-3"></i>        
                         <span class="nav-text">Gestion des capteurs</span>
                     </a>                    
                     <a id="theme-toggle" class="flex items-center p-3 rounded-lg bg-gray-700 hover:bg-blue-400 hover:text-white transition-colors">
                         <i id="theme-icon" class="fas fa-sun"></i>
-                        <span class="nav-text" id="theme-txt">Mode clair</span>
+                        <span class="nav-text ml-3" id="theme-txt">Mode clair</span>
                     </a>
-                    <button onclick="logout()" class="flex items-center p-3 rounded-lg bg-gray-700 hover:bg-red-400 hover:text-white transition-colors">
-                        <i class="fas fa-power-off mr-3"></i>                        
-                        <span class="nav-text">Déconnexion</span>
-                    </button>          
+                    <a class="flex items-center p-3 rounded-lg bg-gray-700 hover:bg-red-400 hover:text-white transition-colors">
+                        <button onclick="logout()" class="flex items-center w-full">
+                            <i class="fas fa-sign-out-alt mr-3"></i>                        
+                            <span class="nav-text">Déconnexion</span>
+                        </button>
+                    </a>          
                 </nav>
             </div>
 
@@ -74,6 +76,9 @@
                     <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-blue-400 text-2xl">
                         <i class="fas fa-bars"></i>
                     </button>
+                    <button id="mobile-menu-btn2" class="hidden md:block text-gray-300 hover:text-blue-400 text-2xl">
+                        <span><i class="fas fa-user"></i> <p id="user" class="font-bold"></p> </span>
+                    </button>
                 </div>                
             </header>
             <div class="flex justify-between">
@@ -88,23 +93,23 @@
                     <button id="close-mobile-menu" class="text-gray-300 text-2xl"><i class="fas fa-times"></i></button>
                 </div>
                 <nav class="flex flex-col space-y-4 p-1">
-                    <a href="#" data-page="dashboard" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                    <a data-page="dashboard" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Tableau de bord</span>
                     </a>
-                    <a href="#" data-page="historique" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                    <a data-page="historique" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
                         <i class="fas fa-history"></i>
                         <span>Historique</span>
                     </a>
-                    <a href="#" data-page="perso" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                    <a data-page="perso" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
                         <i class="fas fa-user"></i>
                         <span>Espace personnel</span>
                     </a>
-                    <a href="#" data-page="gestUtilisateurs" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                    <a id="m-gestUsers" data-page="gestUtilisateurs" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
                         <i class="fas fa-users-cog"></i>
                         <span>Gestion utilisateurs</span>
                     </a>
-                    <a href="#" data-page="gestCapteurs" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
+                    <a id="m-gestCapteurs" data-page="gestCapteurs" class="nav-link bg-gray-700 hover:bg-blue-400 p-2 rounded transition-colors">
                         <i class="fas fa-microchip"></i>
                         <span>Gestion capteurs</span>
                     </a>
@@ -112,10 +117,16 @@
                         <i id="theme-icon2" class="fas fa-sun"></i>
                         <span id="theme-txt2">Mode clair</span>
                     </a>
-                    <button onclick="logout()" class="bg-gray-700 hover:bg-red-500 p-2 rounded transition-colors">
+                    <a class="rounded-lg bg-gray-700 hover:bg-red-500 p-2 transition-colors">
+                        <button onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span id="theme-txt2">Déconnexion</span>
+                        </button>
+                    </a>                    
+                    <!-- <button onclick="logout()" class="bg-gray-700 hover:bg-red-500 p-2 rounded transition-colors">
                         <i class="fas fa-sign-out-alt"></i>
-                        <span>Déconnexion</span>
-                    </button>
+                        <span>Déconnexion</span>²
+                    </button> -->
                 </nav>
             </div>
 
@@ -305,12 +316,12 @@
                     <section class="p-6 rounded-xl shadow-xl bg-gray-700" style="width: 600px;">
                         <h2 class="text-xl font-semibold mb-4 text-center">
                             <i class="fas fa-user"></i>        
-                            <p>Profil</p>
+                            <p id="profil">Profil</p>
                         </h2>
                         <div>
                             <div class="text-center font-bold">
-                                <h1>Ariel Gnapie</h1>
-                                <h2>ariel.gnapie@meteolia.com</h2>
+                                <h1 id="u_name">Ariel Gnapie</h1>
+                                <h2 id="u_email">ariel.gnapie@meteolia.com</h2>
                             </div>
                             <div class="flex justify-center item-center mt-2 divperso">
                                 <button id="updateUser" class="flex items-center rounded-lg bg-blue-400 hover:bg-blue-500 text-sm text-white p-1 mr-2 transition-colors">
@@ -361,7 +372,7 @@
                             <div class="flex items-center justify-between mb-4">
                                 <h2 class="text-xl font-semibold">Administrateurs</h2>
                             </div>
-                            <div class="text-5xl font-bold my-4">
+                            <div id="count-admins" class="text-5xl font-bold my-4">
                                 1
                             </div>
 
@@ -369,7 +380,7 @@
 
                         <section class="col-span-1 md:col-span-1 p-6 rounded-xl shadow-xl bg-gray-700 flex flex-col items-center justify-center">
                             <h2 class="text-xl font-semibold mb-6">Utilisateurs</h2>
-                            <div class="text-5xl font-bold my-4">
+                            <div id="count-users" class="text-5xl font-bold my-4">
                                 2
                             </div>
                         </section>
@@ -377,7 +388,7 @@
                             <div class="flex items-center justify-between mb-4">
                                 <h2 class="text-xl font-semibold">Actifs actuellement</h2>
                             </div>
-                            <div class="text-5xl font-bold my-4">
+                            <div id="count-active" class="text-5xl font-bold my-4">
                                 1
                             </div>
                         </section>                    
@@ -400,74 +411,45 @@
                                         <th class="p-3 text-white text-xs sm:text-sm md:text-base">Mot de passe</th>
                                         <th class="p-3 text-white text-xs sm:text-sm md:text-base">Rôle</th>
                                         <th class="p-3 text-white text-xs sm:text-sm md:text-base">Statut</th>
-                                        <th class="p-3 text-white text-xs sm:text-sm md:text-base">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="users-table-body">
-                                    <tr class="border-b border-gray-600">
-                                        <td class="p-3 text-white">Gnapie</td>
-                                        <td class="p-3 text-white">Ariel</td>
-                                        <td class="p-3 text-white">ariel.gnapie@meteolia.com</td>
-                                        <td class="p-3 text-white">$2b$10$ewF2/EON65onBxvQcnsk4e6.qiZqK0OCt0ZTyTiE3QbiHk6q1hZPC</td>
-                                        <td class="p-3 text-white">administrateur</td>
-                                        <td class="p-3 text-green-400">En ligne</td>
-                                        <td class="p-3 text-white">
-                                            <button class="text-sm text-blue-400 hover:underline">Modifier</button>
-                                            <button class="text-sm text-red-400 hover:underline ml-2">Supprimer</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b border-gray-600">
-                                        <td class="p-3 text-white">Keita</td>
-                                        <td class="p-3 text-white">Mamadou</td>
-                                        <td class="p-3 text-white">mamadou.keita@mail.com</td>
-                                        <td class="p-3 text-white">$2b$10$ewF2/EON65onBxvQcnsk4e6.qiZqK0OCt0ZTyTiE3QbiHk6q1hZPC</td>
-                                        <td class="p-3 text-white">Utilisateur</td>
-                                        <td class="p-3 text-gray-400">Hors ligne</td>
-                                        <td class="p-3 text-white">
-                                            <button class="text-sm text-blue-400 hover:underline">Modifier</button>
-                                            <button class="text-sm text-red-400 hover:underline ml-2">Supprimer</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b border-gray-600">
-                                        <td class="p-3 text-white">Traoré</td>
-                                        <td class="p-3 text-white">Ibrahim</td>
-                                        <td class="p-3 text-white">ibrahim.traore@mail.com</td>
-                                        <td class="p-3 text-white">$2b$10$ewF2/EON65onBxvQcnsk4e6.qiZqK0OCt0ZTyTiE3QbiHk6q1hZPC</td>
-                                        <td class="p-3 text-white">Utilisateur</td>
-                                        <td class="p-3 text-gray-400">Hors ligne</td>
-                                        <td class="p-3 text-white">
-                                            <button class="text-sm text-blue-400 hover:underline">Modifier</button>
-                                            <button class="text-sm text-red-400 hover:underline ml-2">Supprimer</button>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </section>  
                     <section class="p-6 rounded-xl shadow-xl bg-gray-700 addForm hidee">
                         <h2 class="text-md md:text-xl font-semibold mb-4">Ajouter utilisateur/Administrateur</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <form id="addUsersForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-sm font-medium mb-2">Nom complet</label>
-                                <input type="text" class="w-full p-2 rounded-lg border border-gray-500 text-black">
+                                <label class="block text-sm font-medium mb-2">Nom</label>
+                                <input id="gestUserNom" type="text" class="w-full p-2 rounded-lg border border-gray-500 text-black" required>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium mb-2">Email</label>
-                                <input type="email" class="w-full p-2 rounded-lg border border-gray-500 text-black">
+                                <label class="block text-sm font-medium mb-2">Prenom</label>
+                                <input id="gestUserPrenom" type="text" class="w-full p-2 rounded-lg border border-gray-500 text-black" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">email</label>
+                                <input id="gestUserEmail" type="email" class="w-full p-2 rounded-lg border border-gray-500 text-black" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-2">Mot de passe</label>
-                                <input type="password" class="w-full p-2 rounded-lg border border-gray-500 text-black">
-                            </div>
+                                <input id="gestUserPassword" type="password" class="w-full p-2 rounded-lg border border-gray-500 text-black" required>
+                            </div>       
                             <div>
-                                <label class="block text-sm font-medium mb-2">Confirmer le mot de passe</label>
-                                <input type="password" class="w-full p-2 rounded-lg border border-gray-500 text-black">
-                            </div>                            <div class="flex items-end">
+                                <label class="block text-sm font-medium mb-2">Rôle</label>
+                                <select name="" id="role" class="w-full p-2 rounded-lg border border-gray-500 text-black" required>
+                                    <option value="Administrateur">Administrateur</option>
+                                    <option value="Utilisateur">Utilisateur</option>
+                                </select>                                
+                            </div>                            
+                            <div class="flex items-end">
                                 <button class="w-full p-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition">
                                     Valider
                                 </button>
                             </div>
-                        </div>
+                        </form>
                     </section>                      
                 </main>
             </div>

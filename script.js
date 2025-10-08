@@ -20,6 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('token');
             window.location.href = 'index.html';
         }
+        else{
+            document.getElementById('user').textContent = data.userFirstName + " " + data.userName;
+            document.getElementById('profil').textContent = data.role;
+            document.getElementById('u_name').textContent = data.userFirstName + " " + data.userName;
+            document.getElementById('u_email').textContent = data.email;
+
+            if (data.role !== 'Administrateur') {
+                document.getElementById('gestUsers').remove();
+                document.getElementById('gestCapteurs').remove();
+                document.getElementById('m-gestUsers').remove();
+                document.getElementById('m-gestCapteurs').remove();
+            }
+        }
     })
     .catch(err => {
         console.error('Erreur lors de la vérification du token', err);
@@ -28,10 +41,80 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 //Deconnexion
-function logout() {
-    localStorage.removeItem('token');
-    window.location.href = 'index.html';
+async function logout() {
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch('https://meteolia-backend.onrender.com/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            localStorage.removeItem('token'); // Invalide le token côté client
+            alert("Erreur : " + data.message);
+            window.location.href = 'index.html'; // Redirige vers la page de login
+        } else {
+            alert("Erreur : " + data.message);
+        }
+    } catch (err) {
+        console.error('Erreur pendant la déconnexion :', err);
+        alert("Échec de la déconnexion.");
+    }
 }
+
+
+//Gestion des action administrateur
+//Recuperation des elements du formulaire d'inscription
+const addUsersForm = document.getElementById('addUsersForm');
+
+//Evenement
+addUsersForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const addUserName = document.getElementById('gestUserNom').value;
+    const addUserFirstName = document.getElementById('gestUserPrenom').value;
+    const addUserEmail = document.getElementById('gestUserEmail').value;
+    const addUserPassword = document.getElementById('gestUserPassword').value;
+    const addUsersRole = document.getElementById('role').value
+
+    addUser(addUserName, addUserFirstName, addUserEmail, addUserPassword, addUsersRole);
+})
+
+
+async function addUser(nom, prenom, email, password, role) {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        // Aucun token, redirection vers login
+        window.location.href = 'index.html';
+        return;
+    }
+
+    try {
+        const response = await fetch('https://meteolia-backend.onrender.com/api/users/addusers', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({nom, prenom, email, password, role }),
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert(data.message);
+            fetchUsers();
+        } else {
+            alert('Erreur: ' + data.message);
+        }
+    } catch (error) {
+        console.error(`Erreur lors de l/'ajout: `, error);
+    }
+}
+
 
 const socket = io('https://meteolia-backend.onrender.com', {
   transports: ['websocket', 'polling'],
@@ -212,6 +295,7 @@ function toggleTheme() {
     const headerTitle = document.querySelector('header h1');
     const themeToggleBtn = document.getElementById('theme-toggle');
     const openmside = document.getElementById('mobile-menu-btn');
+    const userBtn = document.getElementById('mobile-menu-btn2');
     const cards = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a');
     const weatherIconBgs = document.querySelectorAll('.weather-icon-bg');
@@ -235,6 +319,7 @@ function toggleTheme() {
         headerTitle.className = headerTitle.className.replace('text-gray-800', 'text-white');
         themeToggleBtn.className = themeToggleBtn.className.replace('text-gray-800', 'text-gray-300');
         openmside.className = openmside.className.replace('text-black', 'text-gray-300');
+        userBtn.className = userBtn.className.replace('text-black', 'text-gray-300');
         // Mettre à jour les cartes
         cards.forEach(card => {
             card.className = card.className.replace('bg-gray-100', 'bg-gray-700');
@@ -268,6 +353,7 @@ function toggleTheme() {
         headerTitle.className = headerTitle.className.replace('text-white', 'text-gray-800');
         themeToggleBtn.className = themeToggleBtn.className.replace('text-gray-300', 'text-gray-800');
         openmside.className = openmside.className.replace('text-gray-300', 'text-black');
+        userBtn.className = userBtn.className.replace('text-gray-300', 'text-black');
         // Mettre à jour les cartes
         cards.forEach(card => {
             card.className = card.className.replace('bg-gray-700', 'bg-gray-100');
@@ -395,6 +481,7 @@ async function fetchData(){
 }
 
 setInterval(fetchData, 60000);
+
 
 function initializeCharts(data) {
     const textColor = appState.isDarkMode ? '#d1d5db' : '#374151';
@@ -528,7 +615,7 @@ function getWindDirectionLabel(degrees) {
 
 function updateData(x) {
     const d = new Date(x.date);
-    const ventText = getWindDirectionLabel(x.directionVent);
+    // const ventText = getWindDirectionLabel(x.directionVent);
 
     document.getElementById('current-temp').textContent = x.temperature.toFixed(1);
     document.getElementById('current-humidity').textContent = x.humidite.toFixed(1);
@@ -700,7 +787,77 @@ async function fetchCapteursStatus() {
 }
 
 fetchCapteursStatus();
-setInterval(fetchCapteursStatus, 10000); // rafraîchir toutes les 10 sec
+setInterval(fetchCapteursStatus, 1000); // rafraîchir toutes les 10 sec
+
+async function fetchUsers(){
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        // Aucun token, redirection vers login
+        window.location.href = 'index.html';
+        return;
+    }
+
+    try {
+        const response = await fetch('https://meteolia-backend.onrender.com/api/users/getusers', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            alert(data.message || "Erreur lors de la récupération des utilisateurs.");
+            return;
+        }
+
+        const users = data.users;
+        const tbody = document.getElementById('users-table-body');
+        tbody.innerHTML = ''; // Vide le tableau actuel
+
+        let countAdmins = 0;
+        let countUsers = 0;
+        let countOnline = 0;
+
+        users.forEach(user => {
+            if (user.role === 'Administrateur') countAdmins++;
+            else if (user.role === 'Utilisateur') countUsers++;
+
+            // Incrémenter si en ligne
+            if (user.isConnected  === true) countOnline++;     
+
+            const row = document.createElement('tr');
+            row.classList.add('border-b', 'border-gray-600');
+            row.innerHTML = `
+                <td>${user.nom}</td>
+                <td>${user.prenom}</td>
+                <td>${user.email}</td>
+                <td>••••••••••••••••••••</td> <!-- mot de passe masqué -->
+                <td>${user.role}</td>
+                <td ${user.isConnected === true ? 'text-green-400' : 'text-gray-400'}">
+                    ${user.isConnected === true ? 'En ligne' : 'Hors ligne'}
+                </td>
+                <td class="p-3 text-white">
+                    <button class="text-sm text-blue-400 hover:underline">Modifier</button>
+                    <button class="text-sm text-red-400 hover:underline ml-2">Supprimer</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        document.getElementById('count-admins').textContent = countAdmins;
+        document.getElementById('count-users').textContent = countUsers;
+        document.getElementById('count-active').textContent = countOnline;
+
+    } catch (err) {
+        console.error("Erreur côté frontend :", err);
+        alert("Une erreur est survenue lors de la connexion au serveur.");
+    }
+};  
+fetchUsers();
+
 
 // Au demarrage de l'application
 document.addEventListener('DOMContentLoaded', initializeApp);

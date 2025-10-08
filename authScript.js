@@ -14,20 +14,9 @@ form1.addEventListener('submit', event => {
 
     if(verify.isValid){
         signUser(verify.lastName, verify.firstName, verify.email, verify.password);
-        console.log(verify.isValid);
-        console.log(verify.lastName);
-        console.log(verify.firstName);
-        console.log(verify.email);
-        console.log(verify.password);
     }
     else{
         alert('Veuillez remplir correctement tous les champs');
-        console.log(verify.isValid);
-        console.log(verify.lastName);
-        console.log(verify.firstName);
-        console.log(verify.email);
-        console.log(verify.password);
-
     }
 })
 
@@ -144,7 +133,7 @@ function emailVerificator(email){
 
 async function signUser(nom, prenom, email, password) {
     try {
-        const response = await fetch('https://meteolia-backend.onrender.com/api/auth/signup', {
+        const response = await fetch('http://localhost:3000/api/auth/signup', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
