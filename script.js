@@ -872,6 +872,8 @@ async function fetchUsers(){
     }
 };  
 fetchUsers();
+setInterval(fetchCapteursStatus, 5000); // rafraîchir toutes les 10 sec
+
 
 
 // Au demarrage de l'application
