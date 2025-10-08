@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('m-gestUsers').remove();
                 document.getElementById('m-gestCapteurs').remove();
             }
+            else{
+                fetchCapteursStatus();
+                setInterval(fetchCapteursStatus, 1000); // rafraîchir toutes les 10 sec
+                fetchUsers();
+                setInterval(fetchUsers, 5000); // rafraîchir toutes les 10 sec
+            }
         }
     })
     .catch(err => {
@@ -801,8 +807,6 @@ async function fetchCapteursStatus() {
     });
 }
 
-fetchCapteursStatus();
-setInterval(fetchCapteursStatus, 1000); // rafraîchir toutes les 10 sec
 
 async function fetchUsers(){
     const token = localStorage.getItem('token');
@@ -871,10 +875,6 @@ async function fetchUsers(){
         alert("Une erreur est survenue lors de la connexion au serveur.");
     }
 };  
-fetchUsers();
-setInterval(fetchCapteursStatus, 5000); // rafraîchir toutes les 10 sec
-
-
 
 // Au demarrage de l'application
 document.addEventListener('DOMContentLoaded', initializeApp);
