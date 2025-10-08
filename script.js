@@ -56,7 +56,7 @@ async function logout() {
 
         if (data.success) {
             localStorage.removeItem('token'); // Invalide le token côté client
-            alert("Erreur : " + data.message);
+            alert(data.message);
             window.location.href = 'index.html'; // Redirige vers la page de login
         } else {
             alert("Erreur : " + data.message);
