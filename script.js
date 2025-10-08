@@ -433,49 +433,54 @@ function updateChartsTheme() {
 
 
 //////////////////////// FONCTIONS SYSTEMES ////////////////////////////////////////////
-async function fetchData(){
-    try{
-        const res = await fetch('https://meteolia-backend.onrender.com/api/data');
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) return;
-        const data2 = [...data].slice(0, 50);
+async function fetchData() {
+    const token = localStorage.getItem('token');
 
+    try {
+        const res = await fetch('https://meteolia-backend.onrender.com/api/data', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) return;
+
+        const data2 = [...data].slice(0, 50);
         const reversed = [...data2].reverse();
 
         initializeCharts(reversed);
-        //Remplir le tableau historique
-        populateTable(data2)
+        populateTable(data2);
 
-        const latest = reversed[reversed.length - 1]
+        const latest = reversed[reversed.length - 1];
         const dateObj = new Date(latest.date);
-        const formatted = ` Dernière mise à jour: ${dateObj.toLocaleDateString()} à ${dateObj.toLocaleTimeString()}`;
+        const formatted = `Dernière mise à jour : ${dateObj.toLocaleDateString()} à ${dateObj.toLocaleTimeString()}`;
         document.getElementById('lastUpdate').textContent = formatted;
 
         const ventText = getWindDirectionLabel(latest.directionVent);
 
         document.getElementById('current-temp').textContent = latest.temperature.toFixed(1);
         document.getElementById('current-humidity').textContent = latest.humidite.toFixed(1);
-        // document.getElementById('current-ws').textContent = latest.vitesseVent.toFixed(1);
-        // document.getElementById('current-wd').textContent = ventText;
         document.getElementById('rain-status').textContent = latest.pluviometrie ? 'Il pleut actuellement' : 'Pas de pluie actuellement';
         document.getElementById('weather-status').textContent = latest.pluviometrie ? 'Pluvieux' : 'Ensoleillé';
+
         const sunIcon = document.getElementById('sun-icon');
         const cloudIcon = document.getElementById('cloud-icon');
         const rainDrops = document.getElementById('rain-drops');
-        
+
         if (latest.pluviometrie) {
-            // Afficher nuage et pluie
             sunIcon.classList.add('hidden');
             cloudIcon.classList.remove('hidden');
             rainDrops.classList.remove('hidden');
         } else {
-            // Afficher soleil
             sunIcon.classList.remove('hidden');
             cloudIcon.classList.add('hidden');
             rainDrops.classList.add('hidden');
         }
-    }
-    catch(e){
+
+    } catch (e) {
         console.error('Erreur fetchData:', e);
     }
 }
@@ -758,31 +763,41 @@ function exportToPDF() {
 
 //Gestion capteurs
 async function fetchCapteursStatus() {
-    const res = await fetch('https://meteolia-backend.onrender.com/api/capteurs/statut');
+    const token = localStorage.getItem('token');
+
+    const res = await fetch('https://meteolia-backend.onrender.com/api/capteurs/statut', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
     const capteurs = await res.json();
+
+    if (!Array.isArray(capteurs)) {
+        console.error('Erreur : capteurs n’est pas un tableau.', capteurs);
+        return;
+    }
 
     const capteursNbr = capteurs.length;
     const activeCapteur = capteurs.filter(c => c.status === 'actif').length;
-    const unactiveCapteur = capteurs.filter(c => c.status !== 'actif').length;
+    const unactiveCapteur = capteursNbr - activeCapteur;
 
     document.getElementById('total-capteur').textContent = capteursNbr;
     document.getElementById('active-status').textContent = activeCapteur;
     document.getElementById('unactive-status').textContent = unactiveCapteur;
 
-
-
-
     const tbody = document.getElementById('capteurs-table');
     tbody.innerHTML = '';
     capteurs.forEach(c => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${c.capteurId}</td>
-        <td>${c.type}</td>
-        <td>${new Date(c.lastSeen).toLocaleTimeString()}</td>
-        <td style="color: ${c.status === 'actif' ? 'green' : 'red'}">${c.status}</td>
-      `;
-      tbody.appendChild(tr);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${c.capteurId}</td>
+            <td>${c.type}</td>
+            <td>${new Date(c.lastSeen).toLocaleTimeString()}</td>
+            <td style="color: ${c.status === 'actif' ? 'green' : 'red'}">${c.status}</td>
+        `;
+        tbody.appendChild(tr);
     });
 }
 
