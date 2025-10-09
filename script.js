@@ -490,7 +490,7 @@ async function fetchData() {
         console.error('Erreur fetchData:', e);
     }
 }
-
+fetchData();
 setInterval(fetchData, 60000);
 
 
@@ -600,8 +600,8 @@ function populateTable(data) {
   data.reverse().forEach(x => {
     const row = document.createElement('tr');
     const d = new Date(x.date);
-    const dateTime = `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
-    const windDir = getWindDirectionLabel(x.directionVent);
+    // const dateTime = `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
+    // const windDir = getWindDirectionLabel(x.directionVent);
     row.innerHTML = `
         <td>${d.toLocaleDateString()}</td>
         <td>${d.toLocaleTimeString()}</td>
@@ -650,37 +650,37 @@ function updateData(x) {
         rainDrops.classList.add('hidden');
     }
 
-    // Ajout dans le tableau historique (en haut du tableau)
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${d.toLocaleDateString()}</td>
-        <td>${d.toLocaleTimeString()}</td>
-        <td class="temp-value">${x.temperature.toFixed(1)} °C</td>
-        <td class="hum-value">${x.humidite.toFixed(1)} %</td>
-        <td class="pluie">${x.pluviometrie ? 'Oui' : 'Non'}</td>
-    `;
-    tableBody.prepend(row);
+    // // Ajout dans le tableau historique (en haut du tableau)
+    // const row = document.createElement('tr');
+    // row.innerHTML = `
+    //     <td>${d.toLocaleDateString()}</td>
+    //     <td>${d.toLocaleTimeString()}</td>
+    //     <td class="temp-value">${x.temperature.toFixed(1)} °C</td>
+    //     <td class="hum-value">${x.humidite.toFixed(1)} %</td>
+    //     <td class="pluie">${x.pluviometrie ? 'Oui' : 'Non'}</td>
+    // `;
+    // tableBody.prepend(row);
 
-    // <td class="vitesseV-value">${x.vitesseVent.toFixed(1)} Km/h</td>
-    // <td class="directionV">${ventText}</td>
+    // // <td class="vitesseV-value">${x.vitesseVent.toFixed(1)} Km/h</td>
+    // // <td class="directionV">${ventText}</td>
 
-    // Si plus de 50 lignes, supprimer la dernière
-    if (tableBody.rows.length > 50) {
-      tableBody.deleteRow(-1); // Supprime la dernière ligne
-    }
+    // // Si plus de 50 lignes, supprimer la dernière
+    // if (tableBody.rows.length > 50) {
+    //   tableBody.deleteRow(-1); // Supprime la dernière ligne
+    // }
 
-    //Mettre à jour les graphes
-    const label = d.toLocaleDateString()
+    // //Mettre à jour les graphes
+    // const label = d.toLocaleDateString()
 
-    if (temperatureChart && humidityChart) {
-        temperatureChart.data.labels.push(label);
-        temperatureChart.data.datasets[0].data.push(x.temperature);
-        temperatureChart.update();
+    // if (temperatureChart && humidityChart) {
+    //     temperatureChart.data.labels.push(label);
+    //     temperatureChart.data.datasets[0].data.push(x.temperature);
+    //     temperatureChart.update();
 
-        humidityChart.data.labels.push(label);
-        humidityChart.data.datasets[0].data.push(x.humidite);
-        humidityChart.update();
-    }
+    //     humidityChart.data.labels.push(label);
+    //     humidityChart.data.datasets[0].data.push(x.humidite);
+    //     humidityChart.update();
+    // }
 }
 
 // Fonction d'initialisation de base de la page
